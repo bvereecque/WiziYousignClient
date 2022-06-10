@@ -6,6 +6,7 @@ namespace WiziYousignClient;
 
 use Exceptions\CurlException;
 use Exceptions\ViolationsException;
+use Exception;
 
 class WiziSignClient
 {
@@ -244,6 +245,9 @@ class WiziSignClient
         }
 
         $response = $this->api_request('POST', 'procedures', $parameters);
+        if( !array_key_exists('id', $response)) {
+            throw new Exception(__METHOD__ . ' #Error : ' . json_encode($response));
+        }
         $this->idAdvProc = $response['id'];
 
         return $response;
@@ -275,6 +279,9 @@ class WiziSignClient
         );
 
         $response = $this->api_request('POST', 'files', $parameters);
+        if( !array_key_exists('id', $response)) {
+            throw new Exception(__METHOD__ . ' #Error : ' . json_encode($response));
+        }
         $this->idfile = $response['id'];
 
         return $response;
